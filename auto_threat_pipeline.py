@@ -1,7 +1,25 @@
 import pandas as pd
 import random
 from datetime import datetime, timedelta
+import requests
 
+def send_security_alert(attack_type, country, ip, record_count):
+    message = (
+        f"🚨 ATTACK DETECTED! 🚨\n\n"
+        f"💻 System: GenAI Firewall\n"
+        f"⚠️ Attack Type: {attack_type}\n"
+        f"🌍 Target Country: {country}\n"
+        f"🌐 Attacker IP: {ip}\n"
+        f"📊 Record Count: {record_count}\n\n"
+        f"🔒 Action: Alert logged successfully."
+    )
+    url = "https://telegram.org"
+    payload = {"chat_id": "6625925902", "text": message}
+    try:
+        requests.post(url, json=payload)
+    except Exception as e:
+        print(f"Network error: {e}")
+        
 print("[-] بدء تشغيل منظومة معالجة وإدارة البيانات الأمنية...")
 
 # 1. توليد بيانات سجلات هجمات سيبرانية لمحاكاة الواقع (SOC Log Generator)
@@ -19,6 +37,8 @@ for i in range(50):
     country = random.choice(countries)
     ip = random.choice(ips)
     record_count = random.randint(1, 10)
+    send_security_alert(attack, country, ip, record_count)
+    import time; time.sleep(1)
     
     simulated_logs.append({
         'Timestamp': log_time.strftime('%Y-%m-%d %H:%M:%S'),
@@ -27,6 +47,7 @@ for i in range(50):
         'Threat_Type': attack,
         'Record_Count': record_count
     })
+
 
 # 2. إدارة البيانات وتحليلها باستخدام Pandas (Data Engineering & Analytics)
 df = pd.DataFrame(simulated_logs)
