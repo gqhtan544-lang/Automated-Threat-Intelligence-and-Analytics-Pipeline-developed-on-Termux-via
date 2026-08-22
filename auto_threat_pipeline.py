@@ -15,12 +15,12 @@ def send_security_alert(attack_type, country, ip, record_count):
         f"✅ **Action:** Alert logged successfully."
     )
     
-    # البوت الخاص بك المستخرج من BotFather
+    # التوكن الصحيح والجديد الخاص بك من BotFather
     BOT_TOKEN = "8718961040:AAGlE-3tSciVPUEIrUbQpIqyGXgsCHbqShA"
     url = f"https://telegram.org{BOT_TOKEN}/sendMessage"
     
     payload = {
-        "chat_id": "6625925902",
+        "chat_id": "6625925902", # معرف حسابك الصحيح
         "text": message,
         "parse_mode": "Markdown"
     }
@@ -40,7 +40,7 @@ ips = ['104.244.42.1', '210.212.3.4', '82.102.23.0', '43.142.12.9', '194.26.29.5
 simulated_logs = []
 base_time = datetime.now()
 
-# حلقة التكرار لتوليد 30 سجل هجوم محاكي تماماً لمجتمع الـ Dashboard
+# حلقة التكرار لتوليد 30 سجل هجوم وإرسالها لتليجرام
 for i in range(30):
     log_time = base_time - timedelta(minutes=random.randint(1, 1440))
     attack = random.choice(attack_types)
@@ -48,9 +48,9 @@ for i in range(30):
     ip = random.choice(ips)
     record_count = random.randint(1, 10)
     
-    # إرسال التنبيه الفوري إلى التليجرام
+    # إرسال التنبيه الفوري
     send_security_alert(attack, country, ip, record_count)
-    time.sleep(1) # تأخير بسيط لتجنب حظر التليجرام عند إرسال رسائل كثيرة مكثفة
+    time.sleep(1) # تأخير بسيط لتجنب حظر السيرفر
     
     simulated_logs.append({
         "Timestamp": log_time.strftime('%Y-%m-%d %H:%M:%S'),
@@ -62,14 +62,8 @@ for i in range(30):
 
 # بناء واستخراج وإدارة البيانات الكبيرة باستخدام مكتبة Pandas
 df = pd.DataFrame(simulated_logs)
-
-# فرز البيانات حسب الوقت
 df = df.sort_values(by='Timestamp', ascending=False)
 
 print(f"\n🎭 تم معالجة وتحليل ({len(df)}) سجل تهديد سيبراني بنجاح :)")
-print("📊 أعلى 3 أنواع هجمات تم رصدها وتحليلها إحصائياً:")
-print(df['Threat_Type'].value_counts().head(3))
-
-# تصدير ملف الـ CSV لربطه مع Looker Studio
 df.to_csv("cyber_threats_analytics.csv", index=False)
 print("\n💾 تم حفظ ملف البيانات النهائي بنجاح باسم [cyber_threats_analytics.csv]")
