@@ -12,23 +12,23 @@ BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 
 def send_security_alert(attack_type, country, ip, record_count):
     message = (
-        f"🚨 **ATTACK DETECTED** 🚨\n"
-        f"🖥️ **System:** GenAI Firewall\n"
-        f"🔥 **Attack Type:** {attack_type}\n"
-        f"🎯 **Target Country:** {country}\n"
-        f"🌐 **Attacker IP:** {ip}\n"
-        f"📊 **Record Count:** {record_count}\n"
-        f"✅ **Action:** Alert logged successfully."
-    )
-    
-    url = f"https://telegram.org{BOT_TOKEN}/sendMessage"
-    
+            f"🚨 **ATTACK DETECTED** 🚨\n"
+                    f"🖥️ **System:** GenAI Firewall\n"
+                            f"🔥 **Attack Type:** {attack_type}\n"
+                                    f"🎯 **Target Country:** {country}\n"
+                                            f"🌐 **Attacker IP:** {ip}\n"
+                                                    f"📊 **Record Count:** {record_count}\n"
+                                                            f"✅ **Action:** Alert logged successfully."
+                                                                )
+
+    url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+
     payload = {
-        "chat_id": "6625925902",
-        "text": message,
-        "parse_mode": "Markdown"
-    }
-    
+            "chat_id": "6625925902",
+                    "text": message,
+                            "parse_mode": "Markdown"
+                                }
+
     try:
         requests.post(url, json=payload)
     except Exception as e:
@@ -51,18 +51,18 @@ for i in range(30):
     country = random.choice(countries)
     ip = random.choice(ips)
     record_count = random.randint(1, 10)
-    
+
     # إرسال التنبيه الفوري
     send_security_alert(attack, country, ip, record_count)
     time.sleep(1) # تأخير بسيط لعدم حظر السيرفر
-    
+
     simulated_logs.append({
-        "Timestamp": log_time.strftime("%Y-%m-%d %H:%M:%S"),
-        "Attacker_IP": ip,
-        "Target_Country": country,
-        "Threat_Type": attack,
-        "Record_Count": record_count
-    })
+            "Timestamp": log_time.strftime("%Y-%m-%d %H:%M:%S"),
+                    "Attacker_IP": ip,
+                            "Target_Country": country,
+                                    "Threat_Type": attack,
+                                            "Record_Count": record_count
+                                                })
 
 # بناء واستخراج وإدارة البيانات الكبيرة باستخدام مكتبة Pandas
 df = pd.DataFrame(simulated_logs)
